@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import type { Metadata } from "next"; // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
+import type { Metadata } from "next";
 import React from "react";
 import "./globals.css";
 
