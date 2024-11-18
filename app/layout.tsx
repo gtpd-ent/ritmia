@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 import React from "react";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -15,7 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  description: "Seamlessly merge your favorite artists' liked songs into new playlists.",
+  description:
+    "Seamlessly merge your favorite artists' liked songs into new playlists.",
   title: "Ritmia",
 };
 
@@ -30,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex h-full items-center justify-center bg-gradient-to-tr from-gray-900 to-slate-700 text-gray-50 antialiased`}
       >
         {children}
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );

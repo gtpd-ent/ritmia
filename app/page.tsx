@@ -1,19 +1,17 @@
-import React from 'react';
+"use client";
 
-import Dashboard from './screens/Dashboard';
-import Welcome from './screens/Welcome';
+import { Provider } from "react-redux";
+import React from "react";
 
-const Ritmia = () => {
-  const authenticated = false;
+import Ritmia from "./app";
+import store from "./redux/store";
+
+const Providers = () => {
   return (
-    <main className="flex flex-col items-center">
-      {!authenticated ? (
-        <Welcome />
-      ) : (
-        <Dashboard />
-      )}
-    </main>
+    <Provider store={store}>
+      <Ritmia />
+    </Provider>
   );
 };
 
-export default Ritmia;
+export default Providers;
