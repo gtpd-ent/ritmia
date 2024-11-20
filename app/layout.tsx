@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html className="h-full !scroll-smooth" lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex h-full items-center justify-center bg-gradient-to-tr from-gray-900 to-slate-700 text-gray-50 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex h-full items-center justify-center bg-gradient-to-tr from-gray-900 to-slate-700 text-sm text-gray-50 antialiased`}
       >
         {children}
         <Toaster position="bottom-right" />

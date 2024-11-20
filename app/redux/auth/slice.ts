@@ -11,7 +11,7 @@ interface AuthState {
   authenticated: boolean;
 }
 
-const initialState = {
+const initialState: AuthState = {
   accessToken: null, // The token is included here only because the action generator requires it as a target. It won't be used directly in the app state since the token is stored in localStorage.
   accessTokenError: null,
   accessTokenLoading: false,
