@@ -4,12 +4,8 @@ import React, { useEffect } from "react";
 
 import Dashboard from "./screens/Dashboard";
 import { getAccessToken } from "./redux/auth/thunk";
+import { getProfile } from "./redux/user/thunk";
 import Welcome from "./screens/Welcome";
-import {
-  getFollowedArtists,
-  getProfile,
-  getSavedTracks,
-} from "./redux/user/thunk";
 import { t_useDispatch, t_useSelector } from "./hooks";
 
 const Ritmia = () => {
@@ -27,8 +23,6 @@ const Ritmia = () => {
   useEffect(() => {
     if (authenticated) {
       dispatch(getProfile());
-      dispatch(getFollowedArtists());
-      dispatch(getSavedTracks());
     }
   }, [authenticated, dispatch]);
 

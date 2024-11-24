@@ -1,10 +1,11 @@
 import { groupBy } from "lodash";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Artist } from "@/types";
+import { getFollowedArtists } from "@/app/redux/user/thunk";
 import GTLoading from "@/app/components/GTLoading";
-import { t_useSelector } from "@/app/hooks";
+import { t_useDispatch, t_useSelector } from "@/app/hooks";
 
 type ArtistsProps = {
   selectedArtists: string[];
@@ -12,10 +13,14 @@ type ArtistsProps = {
 };
 
 const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
+  const dispatch = t_useDispatch();
   const { followedArtists, followedArtistsLoading } = t_useSelector(
     (state) => state.user,
   );
   const { items } = followedArtists;
+
+  const [progress, setProgress] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const handleSelectArtist = (id: string) => {
     setSelectedArtists((prev) =>
@@ -49,16 +54,20 @@ const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
       </button>
     ));
 
+  useEffect(() => {
+    dispatch(getFollowedArtists({ setProgress, setTotal }));
+  }, [dispatch]);
+
   return (
-    <GTLoading loading={followedArtistsLoading} title="Loading artists...">
-      <div className="flex flex-col gap-8">
-        <h2 className="self-center text-2xl font-bold">
-          Choose your favorite artists
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {artistsToShow.selected && renderArtists(artistsToShow.selected)}
-          {artistsToShow.unselected && renderArtists(artistsToShow.unselected)}
-        </div>
+    <GTLoading
+      loading={followedArtistsLoading}
+      progress={progress}
+      title="Loading artists..."
+      total={total}
+    >
+      <div className="flex flex-wrap gap-2">
+        {artistsToShow.selected && renderArtists(artistsToShow.selected)}
+        {artistsToShow.unselected && renderArtists(artistsToShow.unselected)}
       </div>
     </GTLoading>
   );

@@ -13,9 +13,9 @@ const Dashboard = () => {
 
   return (
     <GTLoading loading={profileLoading} title="Loading profile...">
-      <div className="flex h-dvh flex-col items-center gap-12 overflow-y-scroll px-8 pb-8 pt-32">
+      <div className="flex h-dvh flex-col items-center gap-8 overflow-y-scroll px-8 pb-8 pt-32">
         <GTUser />
-        <h1 className="text-5xl italic">Ritmia</h1>
+        <h1 className="pb-4 text-5xl italic">Ritmia</h1>
         <Artists {...{ selectedArtists, setSelectedArtists }} />
         <Tracks {...{ selectedArtists }} />
       </div>
