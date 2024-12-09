@@ -1,12 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { Artist, Track, UserProfile } from "@/types";
+import { Artist, Playlist, Track, UserProfile } from "@/types";
 
 import { handleAsyncActions } from "../utils";
 
-import { getFollowedArtists, getProfile, getSavedTracks } from "./thunk";
+import {
+  addTracksToPlaylist,
+  createPlaylist,
+  getFollowedArtists,
+  getProfile,
+  getSavedTracks,
+} from "./thunk";
 
 interface UserState {
+  addTracksToPlaylist: { snapshot_id: string } | {};
+  addTracksToPlaylistError: string | null;
+  addTracksToPlaylistLoading: boolean;
+  createPlaylist: Playlist | {};
+  createPlaylistError: string | null;
+  createPlaylistLoading: boolean;
   followedArtists: { items: Artist[]; total: number };
   followedArtistsError: string | null;
   followedArtistsLoading: boolean;
@@ -19,6 +31,12 @@ interface UserState {
 }
 
 const initialState: UserState = {
+  addTracksToPlaylist: {}, // The token is included here only because the action generator requires it as a target. It won't be used directly in the app state.
+  addTracksToPlaylistError: null,
+  addTracksToPlaylistLoading: false,
+  createPlaylist: {},
+  createPlaylistError: null,
+  createPlaylistLoading: false,
   followedArtists: { items: [], total: 0 },
   followedArtistsError: null,
   followedArtistsLoading: false,
@@ -39,6 +57,12 @@ const user = createSlice({
       "followedArtists",
     );
     handleAsyncActions<UserState>(builder, getSavedTracks, "savedTracks");
+    handleAsyncActions<UserState>(builder, createPlaylist, "createPlaylist");
+    handleAsyncActions<UserState>(
+      builder,
+      addTracksToPlaylist,
+      "addTracksToPlaylist",
+    );
   },
   initialState,
   name: "user",

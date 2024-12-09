@@ -1,29 +1,44 @@
 import { FaPlus, FaRegCircleXmark } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 
-import { getSavedTracks } from "@/app/redux/user/thunk";
 import GTLoading from "@/app/components/GTLoading";
+import { UserProfile } from "@/types";
+import {
+  addTracksToPlaylist,
+  createPlaylist,
+  getSavedTracks,
+} from "@/app/redux/user/thunk";
 import { t_useDispatch, t_useSelector } from "@/app/hooks";
 
+import PlaylistModal from "./components/PlaylistModal";
 import TrackItem from "./components/TrackItem";
 
 type TracksProps = {
-  selectedArtists: string[];
+  selectedArtists: { id: string; name: string }[];
 };
 
 const Tracks = ({ selectedArtists }: TracksProps) => {
   const dispatch = t_useDispatch();
-  const { savedTracks, savedTracksLoading } = t_useSelector(
-    (state) => state.user,
+  const { id: userId } = t_useSelector(
+    (state) => state.user.profile as UserProfile,
   );
+  const {
+    addTracksToPlaylistError,
+    createPlaylistError,
+    savedTracks,
+    savedTracksLoading,
+  } = t_useSelector((state) => state.user);
   const { items } = savedTracks;
 
   const [progress, setProgress] = useState(0);
   const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
 
   const tracksToShow = items
     .filter(({ track }) =>
-      track.artists.some(({ id }) => selectedArtists.includes(id)),
+      track.artists.some(({ id }) =>
+        selectedArtists.find((artist) => artist.id === id),
+      ),
     )
     .sort(({ track: { name: a } }, { track: { name: b } }) =>
       a.localeCompare(b),
@@ -32,6 +47,28 @@ const Tracks = ({ selectedArtists }: TracksProps) => {
   useEffect(() => {
     dispatch(getSavedTracks({ setProgress, setTotal }));
   }, [dispatch]);
+
+  const handleCreatePlaylist = async () => {
+    setOpen(true);
+    const artistsNames = selectedArtists.map(({ name }) => name).join(", ");
+    const playlistName = `Ritmia - ${artistsNames}`;
+    await dispatch(
+      createPlaylist({
+        callback: ({ id: playlistId }) => {
+          const tracks = tracksToShow.map(({ track }) => track.uri);
+          dispatch(addTracksToPlaylist({ playlistId, tracks }));
+        },
+        playlistName,
+        userId,
+      }),
+    );
+  };
+
+  useEffect(() => {
+    if (createPlaylistError || addTracksToPlaylistError) {
+      setOpen(false);
+    }
+  }, [addTracksToPlaylistError, createPlaylistError]);
 
   return (
     <GTLoading
@@ -44,6 +81,7 @@ const Tracks = ({ selectedArtists }: TracksProps) => {
         <button
           className="flex h-10 w-full items-center justify-center gap-1 rounded-t-xl bg-green-600/80 transition hover:bg-green-800 active:bg-green-800/80 disabled:bg-green-500/20 disabled:text-gray-400"
           disabled={tracksToShow.length <= 0}
+          onClick={handleCreatePlaylist}
         >
           <FaPlus size={12} />
           Create
@@ -62,6 +100,7 @@ const Tracks = ({ selectedArtists }: TracksProps) => {
               : "Select an artist to see your liked songs"}
           </div>
         )}
+        <PlaylistModal handleClose={() => setOpen(false)} open={open} />
       </div>
     </GTLoading>
   );

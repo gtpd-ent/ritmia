@@ -76,3 +76,48 @@ export interface Track {
     uri: string;
   };
 }
+
+export interface Playlist {
+  collaborative: boolean;
+  description: string | null;
+  external_urls: { spotify: string };
+  followers: { href: string | null; total: number };
+  href: string;
+  id: string;
+  images: Image[];
+  name: string;
+  owner: {
+    display_name: string | null;
+    external_urls: { spotify: string };
+    followers: { href: string | null; total: number };
+    href: string;
+    id: string;
+    type: string;
+    uri: string;
+  };
+  public: boolean;
+  snapshot_id: string;
+  tracks: {
+    href: string;
+    items: {
+      added_at: string;
+      added_by: {
+        external_urls: { spotify: string };
+        followers: { href: string | null; total: number };
+        href: string;
+        id: string;
+        type: string;
+        uri: string;
+      };
+      is_local: boolean;
+      track: Track;
+    }[];
+    limit: number;
+    next: string | null;
+    offset: number;
+    previous: string | null;
+    total: number;
+    type: string;
+    uri: string;
+  };
+}

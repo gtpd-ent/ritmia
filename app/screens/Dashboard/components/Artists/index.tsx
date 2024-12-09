@@ -7,9 +7,13 @@ import { getFollowedArtists } from "@/app/redux/user/thunk";
 import GTLoading from "@/app/components/GTLoading";
 import { t_useDispatch, t_useSelector } from "@/app/hooks";
 
+import OtherArtists from "./components/OtherArtists";
+
 type ArtistsProps = {
-  selectedArtists: string[];
-  setSelectedArtists: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedArtists: { id: string; name: string }[];
+  setSelectedArtists: React.Dispatch<
+    React.SetStateAction<{ id: string; name: string }[]>
+  >;
 };
 
 const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
@@ -17,29 +21,30 @@ const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
   const { followedArtists, followedArtistsLoading } = t_useSelector(
     (state) => state.user,
   );
-  const { items } = followedArtists;
 
   const [progress, setProgress] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const handleSelectArtist = (id: string) => {
+  const handleSelectArtist = (id: string, name: string) => {
     setSelectedArtists((prev) =>
-      prev.includes(id)
-        ? prev.filter((artist) => artist !== id)
-        : [...prev, id],
+      prev.find((artist) => artist.id === id)
+        ? prev.filter((artist) => artist.id !== id)
+        : [...prev, { id, name }],
     );
   };
 
-  const artistsToShow = groupBy(items, (item) =>
-    selectedArtists.includes(item.id) ? "selected" : "unselected",
+  const artistsToShow = groupBy(followedArtists.items, (item) =>
+    selectedArtists.find((artist) => artist.id === item.id)
+      ? "selected"
+      : "unselected",
   );
 
   const renderArtists = (artists: Artist[]) =>
     artists.map(({ id, images, name }) => (
       <button
-        className={`flex items-center gap-3 rounded-full border border-white/10 ${selectedArtists.includes(id) ? "bg-green-950/80" : "bg-gray-900"} p-2 pr-4`}
+        className={`flex items-center gap-3 rounded-full border border-white/10 ${selectedArtists.find((artist) => artist.id === id) ? "bg-green-900/70" : "bg-gray-900"} p-2 pr-4`}
         key={id}
-        onClick={() => handleSelectArtist(id)}
+        onClick={() => handleSelectArtist(id, name)}
       >
         {images.length > 0 && images[0]?.url && (
           <Image
@@ -68,6 +73,9 @@ const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
       <div className="flex flex-wrap gap-2">
         {artistsToShow.selected && renderArtists(artistsToShow.selected)}
         {artistsToShow.unselected && renderArtists(artistsToShow.unselected)}
+        <OtherArtists
+          {...{ followedArtists, handleSelectArtist, selectedArtists }}
+        />
       </div>
     </GTLoading>
   );

@@ -9,7 +9,9 @@ import Tracks from "./components/Tracks";
 
 const Dashboard = () => {
   const profileLoading = t_useSelector((state) => state.user.profileLoading);
-  const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
+  const [selectedArtists, setSelectedArtists] = useState<
+    { id: string; name: string }[]
+  >([]);
 
   return (
     <GTLoading loading={profileLoading} title="Loading profile...">

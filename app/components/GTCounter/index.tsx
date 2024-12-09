@@ -25,7 +25,7 @@ const GTCounter = ({ options, to }: GTCounterProps) => {
 
     const controls = animate(from, to, {
       duration: 0.5,
-      ease: "linear",
+      ease: "easeOut",
       ...options,
       onUpdate(value) {
         element.textContent = value.toFixed(0);

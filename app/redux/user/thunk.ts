@@ -35,7 +35,6 @@ export const getFollowedArtists = createAsyncThunk(
     do {
       try {
         const response = await api.get(next);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
         followedArtists = followedArtists.concat(response.data.artists.items);
         next = response.data.artists.next;
         setProgress((prev) => Math.max(prev, followedArtists.length));
@@ -77,5 +76,66 @@ export const getSavedTracks = createAsyncThunk(
       }
     } while (next);
     return { items: savedTracks, total: savedTracks.length };
+  },
+);
+
+type CreatePlaylistProps = {
+  callback?: (data: any) => void;
+  playlistName: string;
+  userId: string;
+};
+
+export const createPlaylist = createAsyncThunk(
+  "user/createPlaylist",
+  async (
+    { callback, playlistName, userId }: CreatePlaylistProps,
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await api.post(`/users/${userId}/playlists`, {
+        name: playlistName,
+        public: true,
+      });
+      callback?.(response.data);
+      return response.data;
+    } catch (error: any) {
+      const errorMsg = error.response.data.error.message;
+      toast.error(errorMsg);
+      return rejectWithValue(errorMsg);
+    }
+  },
+);
+
+type AddTracksToPlaylistProps = {
+  playlistId: string;
+  tracks: string[];
+};
+
+export const addTracksToPlaylist = createAsyncThunk(
+  "user/addTracksToPlaylist",
+  async (
+    { playlistId, tracks }: AddTracksToPlaylistProps,
+    { rejectWithValue },
+  ) => {
+    const chunkSize = 100; // Spotify API limit
+    const uriChunks = [];
+
+    for (let i = 0; i < tracks.length; i += chunkSize) {
+      uriChunks.push(tracks.slice(i, i + chunkSize));
+    }
+
+    const addChunkToPlaylist = async (uris: string[]) => {
+      try {
+        await api.post(`/playlists/${playlistId}/tracks`, { uris });
+      } catch (error: any) {
+        const errorMsg = error.response.data.error.message;
+        toast.error(errorMsg);
+        return rejectWithValue(errorMsg);
+      }
+    };
+
+    for (const chunk of uriChunks) {
+      await addChunkToPlaylist(chunk);
+    }
   },
 );
