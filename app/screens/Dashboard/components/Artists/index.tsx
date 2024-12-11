@@ -10,13 +10,18 @@ import { t_useDispatch, t_useSelector } from "@/app/hooks";
 import OtherArtists from "./components/OtherArtists";
 
 type ArtistsProps = {
+  hasFetchedArtists: React.MutableRefObject<boolean>;
   selectedArtists: { id: string; name: string }[];
   setSelectedArtists: React.Dispatch<
     React.SetStateAction<{ id: string; name: string }[]>
   >;
 };
 
-const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
+const Artists = ({
+  hasFetchedArtists,
+  selectedArtists,
+  setSelectedArtists,
+}: ArtistsProps) => {
   const dispatch = t_useDispatch();
   const { followedArtists, followedArtistsLoading } = t_useSelector(
     (state) => state.user,
@@ -60,8 +65,10 @@ const Artists = ({ selectedArtists, setSelectedArtists }: ArtistsProps) => {
     ));
 
   useEffect(() => {
+    if (hasFetchedArtists.current) return;
+    hasFetchedArtists.current = true;
     dispatch(getFollowedArtists({ setProgress, setTotal }));
-  }, [dispatch]);
+  }, [dispatch, hasFetchedArtists]);
 
   return (
     <GTLoading

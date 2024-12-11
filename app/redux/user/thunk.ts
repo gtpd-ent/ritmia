@@ -61,21 +61,47 @@ export const getSavedTracks = createAsyncThunk(
     { rejectWithValue },
   ) => {
     let savedTracks: Track[] = [];
-    let next = "/me/tracks?limit=50";
-    do {
-      try {
-        const response = await api.get(next);
-        savedTracks = savedTracks.concat(response.data.items);
-        next = response.data.next;
-        setProgress((prev) => Math.max(prev, savedTracks.length));
-        setTotal(response.data.total);
-      } catch (error: any) {
-        const errorMsg = error.response.data.error.message;
-        toast.error(errorMsg);
-        return rejectWithValue(errorMsg);
+    const LIMIT = 50;
+
+    try {
+      const firstResponse = await api.get(`/me/tracks?limit=${LIMIT}`);
+      const { items, next, total } = firstResponse.data;
+
+      savedTracks = items;
+      setProgress((prev) => Math.max(prev, savedTracks.length));
+      setTotal(total);
+
+      if (!next) {
+        return { items: savedTracks, total };
       }
-    } while (next);
-    return { items: savedTracks, total: savedTracks.length };
+
+      const remaining = total - LIMIT;
+      if (remaining <= 0) {
+        return { items: savedTracks, total };
+      }
+
+      const callsNeeded = Math.ceil(remaining / LIMIT);
+      const promises = [];
+
+      for (let i = 1; i <= callsNeeded; i++) {
+        const offset = i * LIMIT;
+        const url = `/me/tracks?limit=${LIMIT}&offset=${offset}`;
+        promises.push(api.get(url));
+      }
+
+      const responses = await Promise.all(promises);
+
+      for (const response of responses) {
+        savedTracks = savedTracks.concat(response.data.items);
+        setProgress((prev) => Math.max(prev, savedTracks.length));
+      }
+
+      return { items: savedTracks, total };
+    } catch (error: any) {
+      const errorMsg = error.response.data.error.message;
+      toast.error(errorMsg);
+      return rejectWithValue(errorMsg);
+    }
   },
 );
 
@@ -136,6 +162,27 @@ export const addTracksToPlaylist = createAsyncThunk(
 
     for (const chunk of uriChunks) {
       await addChunkToPlaylist(chunk);
+    }
+  },
+);
+
+type AddCoverImageProps = {
+  image: string;
+  playlistId: string;
+};
+
+export const addCoverImage = createAsyncThunk(
+  "user/addCoverImage",
+  async ({ image, playlistId }: AddCoverImageProps, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/playlists/${playlistId}/images`, image, {
+        headers: { "Content-Type": "image/jpeg" },
+      });
+      return response.data;
+    } catch (error: any) {
+      const errorMsg = error.response.data.error.message;
+      toast.error(errorMsg);
+      return rejectWithValue(errorMsg);
     }
   },
 );

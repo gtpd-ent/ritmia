@@ -14,10 +14,11 @@ import PlaylistModal from "./components/PlaylistModal";
 import TrackItem from "./components/TrackItem";
 
 type TracksProps = {
+  hasFetchedTracks: React.MutableRefObject<boolean>;
   selectedArtists: { id: string; name: string }[];
 };
 
-const Tracks = ({ selectedArtists }: TracksProps) => {
+const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
   const dispatch = t_useDispatch();
   const { id: userId } = t_useSelector(
     (state) => state.user.profile as UserProfile,
@@ -45,8 +46,10 @@ const Tracks = ({ selectedArtists }: TracksProps) => {
     );
 
   useEffect(() => {
+    if (hasFetchedTracks.current) return;
+    hasFetchedTracks.current = true;
     dispatch(getSavedTracks({ setProgress, setTotal }));
-  }, [dispatch]);
+  }, [dispatch, hasFetchedTracks]);
 
   const handleCreatePlaylist = async () => {
     setOpen(true);
@@ -100,7 +103,11 @@ const Tracks = ({ selectedArtists }: TracksProps) => {
               : "Select an artist to see your liked songs"}
           </div>
         )}
-        <PlaylistModal handleClose={() => setOpen(false)} open={open} />
+        <PlaylistModal
+          handleClose={() => setOpen(false)}
+          open={open}
+          tracks={tracksToShow}
+        />
       </div>
     </GTLoading>
   );

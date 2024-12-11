@@ -5,6 +5,7 @@ import { Artist, Playlist, Track, UserProfile } from "@/types";
 import { handleAsyncActions } from "../utils";
 
 import {
+  addCoverImage,
   addTracksToPlaylist,
   createPlaylist,
   getFollowedArtists,
@@ -13,6 +14,9 @@ import {
 } from "./thunk";
 
 interface UserState {
+  addCoverImage: { snapshot_id: string } | {};
+  addCoverImageError: string | null;
+  addCoverImageLoading: boolean;
   addTracksToPlaylist: { snapshot_id: string } | {};
   addTracksToPlaylistError: string | null;
   addTracksToPlaylistLoading: boolean;
@@ -31,7 +35,10 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  addTracksToPlaylist: {}, // The token is included here only because the action generator requires it as a target. It won't be used directly in the app state.
+  addCoverImage: {},
+  addCoverImageError: null,
+  addCoverImageLoading: false,
+  addTracksToPlaylist: {},
   addTracksToPlaylistError: null,
   addTracksToPlaylistLoading: false,
   createPlaylist: {},
@@ -63,6 +70,7 @@ const user = createSlice({
       addTracksToPlaylist,
       "addTracksToPlaylist",
     );
+    handleAsyncActions<UserState>(builder, addCoverImage, "addCoverImage");
   },
   initialState,
   name: "user",

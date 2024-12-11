@@ -1,6 +1,7 @@
 "use client";
 
 import { FaSpotify } from "react-icons/fa";
+import Image from "next/image";
 import React from "react";
 
 import { redirectToAuth } from "@/app/utils/auth";
@@ -26,6 +27,10 @@ const Welcome = () => {
         )}
         {loading ? "Loading..." : "Login with Spotify"}
       </button>
+      <div className="absolute bottom-32 flex flex-col items-center">
+        <p className="text-center text-sm">A product by </p>
+        <Image alt="GTPD" height={100} src="/GTPDLogo.png" width={100} />
+      </div>
     </div>
   );
 };
