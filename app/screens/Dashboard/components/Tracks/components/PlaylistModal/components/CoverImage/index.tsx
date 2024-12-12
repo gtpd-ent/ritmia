@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useToJpeg } from "@hugocxl/react-to-image";
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import { addCoverImage } from "@/app/redux/user/thunk";
 import { Playlist } from "@/types";
@@ -17,6 +17,7 @@ const CoverImage = ({ images }: CoverImageProps) => {
   );
 
   const hasAddedCoverImage = useRef(false);
+  const [loadedImages, setLoadedImages] = useState(0);
   const [state, convert, ref] = useToJpeg<HTMLDivElement>({
     onSuccess: (data) => {
       const image = data.replace("data:image/jpeg;base64,", "");
@@ -25,11 +26,15 @@ const CoverImage = ({ images }: CoverImageProps) => {
   });
 
   useEffect(() => {
-    if (state.isIdle && !hasAddedCoverImage.current) {
+    if (
+      state.isIdle &&
+      !hasAddedCoverImage.current &&
+      loadedImages === images.length + 1
+    ) {
       convert();
       hasAddedCoverImage.current = true;
     }
-  }, [state, convert, hasAddedCoverImage]);
+  }, [state, convert, hasAddedCoverImage, loadedImages, images.length]);
 
   return (
     <Fragment>
@@ -44,6 +49,7 @@ const CoverImage = ({ images }: CoverImageProps) => {
               className={`${images.length === 1 ? "size-[200px]" : "size-[100px]"} object-cover`}
               crossOrigin="anonymous"
               key={index}
+              onLoad={async () => setLoadedImages((prev) => prev + 1)}
               src={img}
             />
           ))}
@@ -53,6 +59,7 @@ const CoverImage = ({ images }: CoverImageProps) => {
             alt="GTPD Logo"
             className="size-[200px] bg-gray-950/50 object-contain"
             height={200}
+            onLoad={async () => setLoadedImages((prev) => prev + 1)}
             src="/GTPDLogo.png"
             width={200}
           />

@@ -47,7 +47,7 @@ const OtherArtists = ({
 
   return (
     <Fragment>
-      <div className="flex max-h-40 flex-wrap gap-1 overflow-y-scroll">
+      <div className="flex max-h-80 flex-wrap gap-1 overflow-y-scroll">
         {otherArtistsToShow.selected &&
           renderOtherArtists(otherArtistsToShow.selected)}
       </div>
@@ -62,7 +62,7 @@ const OtherArtists = ({
             {open ? "Show less" : "Show more"}
           </button>
           {open && (
-            <div className="flex h-40 flex-wrap gap-1 overflow-y-scroll">
+            <div className="flex h-80 flex-wrap gap-1 overflow-y-scroll">
               {otherArtistsToShow.unselected &&
                 renderOtherArtists(otherArtistsToShow.unselected)}
             </div>

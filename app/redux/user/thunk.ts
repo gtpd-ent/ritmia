@@ -49,17 +49,9 @@ export const getFollowedArtists = createAsyncThunk(
   },
 );
 
-type GetSavedTracksProps = {
-  setProgress: React.Dispatch<React.SetStateAction<number>>;
-  setTotal: React.Dispatch<React.SetStateAction<number>>;
-};
-
 export const getSavedTracks = createAsyncThunk(
   "user/getSavedTracks",
-  async (
-    { setProgress, setTotal }: GetSavedTracksProps,
-    { rejectWithValue },
-  ) => {
+  async (_, { rejectWithValue }) => {
     let savedTracks: Track[] = [];
     const LIMIT = 50;
 
@@ -68,8 +60,6 @@ export const getSavedTracks = createAsyncThunk(
       const { items, next, total } = firstResponse.data;
 
       savedTracks = items;
-      setProgress((prev) => Math.max(prev, savedTracks.length));
-      setTotal(total);
 
       if (!next) {
         return { items: savedTracks, total };
@@ -93,7 +83,6 @@ export const getSavedTracks = createAsyncThunk(
 
       for (const response of responses) {
         savedTracks = savedTracks.concat(response.data.items);
-        setProgress((prev) => Math.max(prev, savedTracks.length));
       }
 
       return { items: savedTracks, total };
@@ -119,6 +108,8 @@ export const createPlaylist = createAsyncThunk(
   ) => {
     try {
       const response = await api.post(`/users/${userId}/playlists`, {
+        description:
+          "A playlist created by Ritmia, the music app that merges your favourite songs to match the vibe you were looking for.",
         name: playlistName,
         public: true,
       });

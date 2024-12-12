@@ -31,8 +31,6 @@ const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
   } = t_useSelector((state) => state.user);
   const { items } = savedTracks;
 
-  const [progress, setProgress] = useState(0);
-  const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
 
   const tracksToShow = items
@@ -48,7 +46,7 @@ const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
   useEffect(() => {
     if (hasFetchedTracks.current) return;
     hasFetchedTracks.current = true;
-    dispatch(getSavedTracks({ setProgress, setTotal }));
+    dispatch(getSavedTracks());
   }, [dispatch, hasFetchedTracks]);
 
   const handleCreatePlaylist = async () => {
@@ -74,12 +72,7 @@ const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
   }, [addTracksToPlaylistError, createPlaylistError]);
 
   return (
-    <GTLoading
-      loading={savedTracksLoading}
-      progress={progress}
-      title="Loading tracks..."
-      total={total}
-    >
+    <GTLoading loading={savedTracksLoading} title="Loading tracks...">
       <div className="flex w-full flex-col rounded-xl bg-gray-900/30">
         <button
           className="flex h-10 w-full items-center justify-center gap-1 rounded-t-xl bg-green-600/80 transition hover:bg-green-800 active:bg-green-800/80 disabled:bg-green-500/20 disabled:text-gray-400"

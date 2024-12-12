@@ -27,9 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="h-full !scroll-smooth" lang="en">
+    <html className="h-full !scroll-smooth bg-slate-900" lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex h-full items-center justify-center bg-gradient-to-tr from-gray-900 to-slate-700 text-sm text-gray-50 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex h-full items-center justify-center bg-gradient-to-tr from-gray-900 to-slate-700 px-4 text-sm text-gray-50 antialiased`}
       >
         {children}
         <Toaster position="bottom-right" />
