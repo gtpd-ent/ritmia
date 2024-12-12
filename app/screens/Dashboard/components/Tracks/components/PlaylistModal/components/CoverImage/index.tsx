@@ -23,6 +23,7 @@ const CoverImage = ({ images }: CoverImageProps) => {
       const image = data.replace("data:image/jpeg;base64,", "");
       dispatch(addCoverImage({ image, playlistId }));
     },
+    quality: 0.5,
   });
 
   useEffect(() => {
