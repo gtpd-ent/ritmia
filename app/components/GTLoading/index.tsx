@@ -6,7 +6,7 @@ type GTLoadingProps = {
   children: React.ReactNode;
   loading: boolean;
   progress?: number;
-  title: string;
+  title?: string;
   total?: number;
 };
 

@@ -7,10 +7,16 @@ import React from "react";
 import { redirectToAuth } from "@/app/utils/auth";
 import { t_useSelector } from "@/app/hooks";
 
-const Welcome = () => {
-  const { loading } = t_useSelector(({ auth }) => ({
+type WelcomeProps = {
+  showLoading: boolean;
+};
+
+const Welcome = ({ showLoading }: WelcomeProps) => {
+  const { loading: tokenLoading } = t_useSelector(({ auth }) => ({
     loading: auth.accessTokenLoading,
   }));
+
+  const loading = showLoading || tokenLoading;
 
   return (
     <div className="flex flex-col items-center gap-8 px-8">

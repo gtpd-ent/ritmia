@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Dashboard from "./screens/Dashboard";
 import { getAccessToken } from "./redux/auth/thunk";
@@ -13,11 +13,14 @@ const Ritmia = () => {
 
   const dispatch = t_useDispatch();
 
+  const [appLoading, setAppLoading] = useState(true);
+
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get("code");
     if (code) {
       dispatch(getAccessToken(code));
     }
+    setAppLoading(false);
   }, [dispatch]);
 
   useEffect(() => {
@@ -28,7 +31,11 @@ const Ritmia = () => {
 
   return (
     <main className="flex flex-col items-center">
-      {!authenticated ? <Welcome /> : <Dashboard />}
+      {!authenticated ? (
+        <Welcome {...{ showLoading: appLoading }} />
+      ) : (
+        <Dashboard />
+      )}
     </main>
   );
 };
