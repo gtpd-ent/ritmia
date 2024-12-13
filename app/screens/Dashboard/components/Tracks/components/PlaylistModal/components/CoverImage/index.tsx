@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useToJpeg } from "@hugocxl/react-to-image";
+import html2canvas from "html2canvas";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import { addCoverImage } from "@/app/redux/user/thunk";
@@ -16,32 +16,30 @@ const CoverImage = ({ images }: CoverImageProps) => {
     (state) => state.user.createPlaylist as Playlist,
   );
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const hasAddedCoverImage = useRef(false);
   const [loadedImages, setLoadedImages] = useState(0);
-  const [state, convert, ref] = useToJpeg<HTMLDivElement>({
-    onSuccess: (data) => {
-      const image = data.replace("data:image/jpeg;base64,", "");
-      dispatch(addCoverImage({ image, playlistId }));
-    },
-    quality: 0.5,
-  });
 
   useEffect(() => {
     if (
-      state.isIdle &&
       !hasAddedCoverImage.current &&
+      containerRef.current &&
       loadedImages === images.length + 1
     ) {
-      convert();
-      hasAddedCoverImage.current = true;
+      html2canvas(containerRef.current, { useCORS: true }).then((canvas) => {
+        const data = canvas.toDataURL("image/jpeg", 0.5);
+        const image = data.replace("data:image/jpeg;base64,", "");
+        dispatch(addCoverImage({ image, playlistId }));
+        hasAddedCoverImage.current = true;
+      });
     }
-  }, [state, convert, hasAddedCoverImage, loadedImages, images.length]);
+  }, [hasAddedCoverImage, loadedImages, images.length, dispatch, playlistId]);
 
   return (
     <Fragment>
       <div
         className="relative flex size-[200px] items-center justify-center"
-        ref={ref}
+        ref={containerRef}
       >
         <div className="relative z-0 flex size-full flex-wrap items-center justify-center">
           {images.map((img, index) => (
