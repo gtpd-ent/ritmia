@@ -7,17 +7,17 @@ import { Playlist } from "@/types";
 import { t_useDispatch, t_useSelector } from "@/app/hooks";
 
 type CoverImageProps = {
+  hasAddedCoverImage: React.MutableRefObject<boolean>;
   images: string[];
 };
 
-const CoverImage = ({ images }: CoverImageProps) => {
+const CoverImage = ({ hasAddedCoverImage, images }: CoverImageProps) => {
   const dispatch = t_useDispatch();
   const { id: playlistId } = t_useSelector(
     (state) => state.user.createPlaylist as Playlist,
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const hasAddedCoverImage = useRef(false);
   const [loadedImages, setLoadedImages] = useState(0);
 
   useEffect(() => {
@@ -33,6 +33,10 @@ const CoverImage = ({ images }: CoverImageProps) => {
         hasAddedCoverImage.current = true;
       });
     }
+
+    return () => {
+      hasAddedCoverImage.current = false;
+    };
   }, [hasAddedCoverImage, loadedImages, images.length, dispatch, playlistId]);
 
   return (
