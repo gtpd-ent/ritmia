@@ -1,0 +1,19 @@
+{
+  "Base": {
+    "Loading": "Cargando...",
+    "Title": "Bienvenido a Ritmia",
+    "MadeBy": "Un producto de",
+    "Login": "Ingresá con Spotify"
+  },
+  "Artists": {
+    "Loading": "Cargando artistas..."
+  },
+  "Tracks": {
+    "Loading": "Cargando canciones...",
+    "PlaylistReady": "Tu playlist está lista!",
+    "ListenHere": "Escucha aquí",
+    "CreatePlaylist": "Crear",
+    "NoTracks": "No se encontraron canciones de los artistas seleccionados",
+    "NoArtists": "Seleccioná un artista para ver tus canciones favoritas"
+  }
+}

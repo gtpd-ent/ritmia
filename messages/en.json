@@ -1,0 +1,19 @@
+{
+  "Base": {
+    "Loading": "Loading...",
+    "Title": "Welcome to Ritmia",
+    "MadeBy": "A product by",
+    "Login": "Login with Spotify"
+  },
+  "Artists": {
+    "Loading": "Loading artists..."
+  },
+  "Tracks": {
+    "Loading": "Loading tracks...",
+    "PlaylistReady": "Your playlist is ready!",
+    "ListenHere": "Listen here",
+    "CreatePlaylist": "Create",
+    "NoTracks": "No liked songs found from the selected artists",
+    "NoArtists": "Select an artist to see your liked songs"
+  }
+}
