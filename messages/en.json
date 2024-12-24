@@ -6,14 +6,19 @@
     "Login": "Login with Spotify"
   },
   "Artists": {
-    "Loading": "Loading artists..."
+    "Title": "These are the artists you follow on Spotify. Select your favorites to get started",
+    "OtherArtists": "These are other artists we found among your 'Liked' songs",
+    "Loading": "Loading artists...",
+    "ShowMore": "Show more",
+    "ShowLess": "Show less"
   },
   "Tracks": {
+    "Title": "These are the songs among your 'Liked Songs' according to your selection of artists",
     "Loading": "Loading tracks...",
     "PlaylistReady": "Your playlist is ready!",
     "ListenHere": "Listen here",
-    "CreatePlaylist": "Create",
-    "NoTracks": "No liked songs found from the selected artists",
+    "CreatePlaylist": "Create playlist",
+    "NoTracks": "No songs among your 'Liked Songs' found from the selected artists",
     "NoArtists": "Select an artist to see your liked songs"
   }
 }

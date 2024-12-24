@@ -91,7 +91,7 @@ const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
             ))}
           </div>
         ) : (
-          <div className="flex h-60 flex-col items-center justify-center gap-4 text-gray-400">
+          <div className="flex h-60 flex-col items-center justify-center gap-4 px-4 text-center text-gray-400">
             <FaRegCircleXmark size={32} />
             {selectedArtists.length > 0 ? t("NoTracks") : t("NoArtists")}
           </div>

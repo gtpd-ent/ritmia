@@ -1,3 +1,4 @@
+import { useTranslations } from "use-intl";
 import React, { useRef, useState } from "react";
 
 import GTUser from "@/app/[locale]/components/GTUser";
@@ -6,6 +7,7 @@ import Artists from "./components/Artists";
 import Tracks from "./components/Tracks";
 
 const Dashboard = () => {
+  const t = useTranslations("Tracks");
   const [selectedArtists, setSelectedArtists] = useState<
     { id: string; name: string }[]
   >([]);
@@ -23,6 +25,7 @@ const Dashboard = () => {
           setSelectedArtists,
         }}
       />
+      <p className="text-center text-gray-400">{t("Title")}</p>
       <Tracks {...{ hasFetchedTracks, selectedArtists }} />
     </div>
   );

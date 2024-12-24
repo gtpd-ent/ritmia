@@ -6,14 +6,19 @@
     "Login": "Ingresá con Spotify"
   },
   "Artists": {
-    "Loading": "Cargando artistas..."
+    "Title": "Estos son los artistas que seguís en Spotify. Seleccioná tus favoritos para empezar",
+    "OtherArtists": "Estos son otros artistas que encontramos entre tus 'Me Gusta'",
+    "Loading": "Cargando artistas...",
+    "ShowMore": "Mostrar más",
+    "ShowLess": "Mostrar menos"
   },
   "Tracks": {
+    "Title": "Estas son las canciones entre tus 'Me Gusta' según tu selección de artistas",
     "Loading": "Cargando canciones...",
     "PlaylistReady": "Tu playlist está lista!",
     "ListenHere": "Escucha aquí",
-    "CreatePlaylist": "Crear",
-    "NoTracks": "No se encontraron canciones de los artistas seleccionados",
+    "CreatePlaylist": "Crear playlist",
+    "NoTracks": "No se encontraron canciones entre tus 'Me gusta' de los artistas seleccionados",
     "NoArtists": "Seleccioná un artista para ver tus canciones favoritas"
   }
 }

@@ -1,4 +1,5 @@
 import groupBy from "lodash/groupBy";
+import { useTranslations } from "next-intl";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import React, { Fragment, useState } from "react";
 
@@ -18,6 +19,7 @@ const OtherArtists = ({
   handleSelectArtist,
   selectedArtists,
 }: OtherArtistsProps) => {
+  const t = useTranslations("Artists");
   const { savedTracks, savedTracksLoading } = t_useSelector(
     (state) => state.user,
   );
@@ -59,13 +61,18 @@ const OtherArtists = ({
             onClick={() => setOpen((prev) => !prev)}
           >
             {open ? <FaAngleUp /> : <FaAngleDown />}
-            {open ? "Show less" : "Show more"}
+            {open ? t("ShowLess") : t("ShowMore")}
           </button>
           {open && (
-            <div className="flex h-80 flex-wrap gap-1 overflow-y-scroll">
-              {otherArtistsToShow.unselected &&
-                renderOtherArtists(otherArtistsToShow.unselected)}
-            </div>
+            <Fragment>
+              <p className="mb-2 w-full text-center text-gray-400">
+                {t("OtherArtists")}
+              </p>
+              <div className="flex max-h-80 flex-wrap gap-1 overflow-y-scroll">
+                {otherArtistsToShow.unselected &&
+                  renderOtherArtists(otherArtistsToShow.unselected)}
+              </div>
+            </Fragment>
           )}
         </Fragment>
       )}

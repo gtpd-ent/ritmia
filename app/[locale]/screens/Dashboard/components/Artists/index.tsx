@@ -80,6 +80,7 @@ const Artists = ({
       total={total}
     >
       <div className="flex flex-wrap gap-2">
+        <p className="mb-4 w-full text-center text-gray-400">{t("Title")}</p>
         {artistsToShow.selected && renderArtists(artistsToShow.selected)}
         {artistsToShow.unselected && renderArtists(artistsToShow.unselected)}
         <OtherArtists
