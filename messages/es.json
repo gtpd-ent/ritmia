@@ -16,9 +16,12 @@
     "Title": "Estas son las canciones entre tus 'Me Gusta' según tu selección de artistas",
     "Loading": "Cargando canciones...",
     "PlaylistReady": "Tu playlist está lista!",
-    "ListenHere": "Escucha aquí",
+    "ListenHere": "Escuchalo en Spotify",
     "CreatePlaylist": "Crear playlist",
     "NoTracks": "No se encontraron canciones entre tus 'Me gusta' de los artistas seleccionados",
     "NoArtists": "Seleccioná un artista para ver tus canciones favoritas"
+  },
+  "Footer": {
+    "PoweredBy": "Contenido proporcionado por"
   }
 }

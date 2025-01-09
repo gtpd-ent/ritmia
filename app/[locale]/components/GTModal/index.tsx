@@ -51,7 +51,7 @@ const GTModal = ({
   return (
     <dialog className={twMerge("group", className)} ref={ref}>
       <div className="fixed inset-0 grid place-content-center bg-black/50 opacity-0 transition-all group-data-[open]:opacity-100">
-        <div className="flex w-[75vw] scale-75 flex-col items-center justify-center rounded-xl bg-gray-200 py-4 pt-12 opacity-0 transition-all group-data-[open]:scale-100 group-data-[open]:opacity-100">
+        <div className="flex w-[75vw] max-w-screen-sm scale-75 flex-col items-center justify-center rounded-xl bg-gray-200 py-4 pt-12 opacity-0 transition-all group-data-[open]:scale-100 group-data-[open]:opacity-100">
           <GTLoading loading={loading} title={t("Loading")}>
             <FaX
               className="absolute right-4 top-4 cursor-pointer text-gray-500 hover:text-gray-700"

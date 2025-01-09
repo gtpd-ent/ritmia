@@ -16,9 +16,12 @@
     "Title": "These are the songs among your 'Liked Songs' according to your selection of artists",
     "Loading": "Loading tracks...",
     "PlaylistReady": "Your playlist is ready!",
-    "ListenHere": "Listen here",
+    "ListenHere": "Listen on Spotify",
     "CreatePlaylist": "Create playlist",
     "NoTracks": "No songs among your 'Liked Songs' found from the selected artists",
     "NoArtists": "Select an artist to see your liked songs"
+  },
+  "Footer": {
+    "PoweredBy": "Powered by"
   }
 }

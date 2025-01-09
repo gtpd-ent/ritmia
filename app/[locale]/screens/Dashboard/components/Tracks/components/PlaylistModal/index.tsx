@@ -1,21 +1,25 @@
+/* eslint-disable @next/next/no-img-element */
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import React, { useRef } from "react";
 
 import GTModal from "@/app/[locale]/components/GTModal";
+import { Playlist } from "@/types";
 import { t_useSelector } from "@/app/[locale]/hooks";
-import { Playlist, Track } from "@/types";
 
 import CoverImage from "./components/CoverImage";
-import { getImages } from "./utils";
 
 type PlaylistModalProps = {
   handleClose: () => void;
   open: boolean;
-  tracks: Track[];
+  selectedArtists: { id: string; name: string }[];
 };
 
-const PlaylistModal = ({ handleClose, open, tracks }: PlaylistModalProps) => {
+const PlaylistModal = ({
+  handleClose,
+  open,
+  selectedArtists,
+}: PlaylistModalProps) => {
   const t = useTranslations("Tracks");
   const {
     addCoverImageLoading,
@@ -33,7 +37,6 @@ const PlaylistModal = ({ handleClose, open, tracks }: PlaylistModalProps) => {
     addTracksToPlaylistLoading ||
     addCoverImageLoading ||
     !hasAddedCoverImage.current;
-  const trackImages = getImages(tracks);
 
   return (
     <GTModal
@@ -46,7 +49,7 @@ const PlaylistModal = ({ handleClose, open, tracks }: PlaylistModalProps) => {
         {open && (
           <CoverImage
             hasAddedCoverImage={hasAddedCoverImage}
-            images={trackImages}
+            selectedArtists={selectedArtists}
           />
         )}
         <h1 className="text-2xl">&quot;{name}&quot;</h1>
@@ -62,6 +65,18 @@ const PlaylistModal = ({ handleClose, open, tracks }: PlaylistModalProps) => {
           ) : (
             <FaArrowUpRightFromSquare className="mt-px" size={16} />
           )}
+        </a>
+        <a
+          className="transition-all hover:scale-110 active:scale-95"
+          href="https://cafecito.app/gtpd"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="Invitame un café en cafecito.app"
+            src="https://cdn.cafecito.app/imgs/buttons/button_4.png"
+            srcSet="https://cdn.cafecito.app/imgs/buttons/button_4.png 1x, https://cdn.cafecito.app/imgs/buttons/button_4_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_4_3.75x.png 3.75x"
+          />
         </a>
       </div>
     </GTModal>

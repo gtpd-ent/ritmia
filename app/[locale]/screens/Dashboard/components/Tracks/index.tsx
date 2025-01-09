@@ -11,6 +11,7 @@ import {
 } from "@/app/[locale]/redux/user/thunk";
 import { t_useDispatch, t_useSelector } from "@/app/[locale]/hooks";
 
+import { buildPlaylistName } from "./utils";
 import PlaylistModal from "./components/PlaylistModal";
 import TrackItem from "./components/TrackItem";
 
@@ -53,8 +54,8 @@ const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
 
   const handleCreatePlaylist = async () => {
     setOpen(true);
-    const artistsNames = selectedArtists.map(({ name }) => name).join(", ");
-    const playlistName = `Ritmia - ${artistsNames}`;
+    const artistsNames = selectedArtists.map(({ name }) => name);
+    const playlistName = buildPlaylistName(artistsNames);
     await dispatch(
       createPlaylist({
         callback: ({ id: playlistId }) => {
@@ -99,7 +100,7 @@ const Tracks = ({ hasFetchedTracks, selectedArtists }: TracksProps) => {
         <PlaylistModal
           handleClose={() => setOpen(false)}
           open={open}
-          tracks={tracksToShow}
+          selectedArtists={selectedArtists}
         />
       </div>
     </GTLoading>

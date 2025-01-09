@@ -30,7 +30,7 @@ const Ritmia = () => {
   }, [authenticated, dispatch]);
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex max-w-screen-lg flex-col items-center">
       {!authenticated ? (
         <Welcome {...{ showLoading: appLoading }} />
       ) : (
