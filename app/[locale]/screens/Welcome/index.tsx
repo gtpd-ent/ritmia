@@ -3,10 +3,13 @@
 import { FaSpotify } from "react-icons/fa";
 import Image from "next/image";
 import React from "react";
+import { Sarina } from "next/font/google";
 import { useTranslations } from "next-intl";
 
 import { redirectToAuth } from "@/app/[locale]/utils/auth";
 import { t_useSelector } from "@/app/[locale]/hooks";
+
+const sarina = Sarina({ subsets: ["latin"], weight: "400" });
 
 type WelcomeProps = {
   showLoading: boolean;
@@ -22,7 +25,10 @@ const Welcome = ({ showLoading }: WelcomeProps) => {
 
   return (
     <div className="flex flex-col items-center gap-8 px-8">
-      <h1 className="text-center text-4xl font-bold">{t("Title")}</h1>
+      <h1 className="text-center text-4xl font-bold">
+        {t("Title")}
+        <span className={sarina.className}>Ritmia</span>
+      </h1>
       <button
         className="flex items-center gap-4 rounded-full border border-white/10 bg-green-900/75 px-4 py-2 text-xl font-light transition hover:scale-[1.15] focus:scale-[1.15] active:scale-105 disabled:scale-100 disabled:bg-gray-700"
         disabled={loading}
