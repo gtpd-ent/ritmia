@@ -31,7 +31,7 @@ export const redirectToAuth = async () => {
   params.append("redirect_uri", process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI!);
   params.append(
     "scope",
-    "user-read-private user-read-email user-follow-read user-library-read playlist-modify-public playlist-modify-private ugc-image-upload",
+    "user-follow-read user-library-read playlist-modify-public ugc-image-upload",
   );
   params.append("code_challenge_method", "S256");
   params.append("code_challenge", challenge);
