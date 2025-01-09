@@ -7,7 +7,13 @@ const Footer = () => {
   return (
     <div className="flex items-center gap-2">
       <p>{t("PoweredBy")}</p>
-      <Image alt="Spotify" height={80} src="/SpotifyLogo.svg" width={80} />
+      <Image
+        alt="Spotify"
+        height={80}
+        src="/SpotifyLogo.svg"
+        unoptimized
+        width={80}
+      />
     </div>
   );
 };

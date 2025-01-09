@@ -17,6 +17,7 @@ const GTUser = () => {
             className="size-8 rounded-full"
             height={32}
             src={images[0].url}
+            unoptimized
             width={32}
           />
         )}

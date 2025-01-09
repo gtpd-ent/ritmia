@@ -15,6 +15,7 @@ const TrackItem = ({ elem }: TrackItemProps) => {
         className="size-8"
         height={32}
         src={elem.track.album.images[0].url}
+        unoptimized
         width={32}
       />
       {elem.track.name}
